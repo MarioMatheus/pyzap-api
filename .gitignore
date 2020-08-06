@@ -1,0 +1,8 @@
+# os
+.DS_Store
+
+# features
+__pycache__
+
+# editors
+.vscode
