@@ -3,11 +3,15 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[dev-packages]
-pylint = "*"
+[scripts]
+serve = "python3 src/main.py"
+devclient = "python3 lib/dev-client.py"
 
 [packages]
 stomp-py = "*"
+
+[dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.7"
