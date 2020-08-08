@@ -1,5 +1,4 @@
 import socket
-import sys
 import select
 import threading
 from domain import service
@@ -12,16 +11,16 @@ IP_ADDRESS = ''
 PORT = 9999
 
 server.bind((IP_ADDRESS, PORT))
-server.listen(10)
+server.listen()
 
-connections_queue = []
+standby_conn_queue = []
 zap_service = service.ZapService()
 lock = threading.Lock()
 
 def remove_connection(conn):
-    if conn in connections_queue:
+    if conn in standby_conn_queue:
         lock.acquire()
-        connections_queue.remove(conn)
+        standby_conn_queue.remove(conn)
         lock.release()
 
 def handle_recv_data(data, conn):
@@ -37,7 +36,7 @@ def handle_recv_data(data, conn):
 def queue_thread():
     print('Queue started!')
     while True:
-        connections, _, _ = select.select(connections_queue, [], [], 1.0)
+        connections, _, _ = select.select(standby_conn_queue, [], [], 1.0)
         for conn in connections:
             try:
                 data = conn.recv(2048)
@@ -50,9 +49,8 @@ threading.Thread(target=queue_thread, args=(), name='USERS_QUEUE').start()
 while True:
     conn, addr = server.accept()
     lock.acquire()
-    connections_queue.append(conn)
+    standby_conn_queue.append(conn)
     lock.release()
     print(addr[0] + " connected")
 
-conn.close()
 server.close()

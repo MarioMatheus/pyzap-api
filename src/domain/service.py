@@ -24,7 +24,7 @@ class ZapService:
                     message = ZapMessageDecode(data)
                     self.send_message(message)
                 else:
-                    self.remove(username)
+                    return self.remove(username)
             except:
                 continue
     
@@ -38,4 +38,6 @@ class ZapService:
 
     def remove(self, username):
         if username in self.users.keys():
+            print('Removing user: ' + username)
             self.users.pop(username)
+            print(self.users.keys())
