@@ -15,7 +15,7 @@ class BrokerConnection:
                     def on_error(self, headers, body):
                         print('received an error "%s"' % body)
                     def on_message(self, headers, body):
-                        print('received a message "%s"' % body)
+                        print('received a message from broker')# "%s"' % body)
                         on_message_recv(body)
         self.conn.set_listener('', Listener())
 

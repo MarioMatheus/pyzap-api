@@ -1,4 +1,5 @@
 import threading
+import time
 from . import broker
 from model import ZapMessageDecode, ZapMessageEncode
 
@@ -22,6 +23,7 @@ class ZapService:
     def broker_on_message(self, message):
         zap_message = ZapMessageDecode(message.encode())
         self.send_message(zap_message)
+        time.sleep(0.05)
 
     def thread_run(self, username, connection):
         print(username + ' on')
