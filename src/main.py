@@ -22,6 +22,7 @@ def remove_connection(conn):
         lock.acquire()
         standby_conn_queue.remove(conn)
         lock.release()
+        print('conn removed')
 
 def handle_recv_data(data, conn):
     if data:
